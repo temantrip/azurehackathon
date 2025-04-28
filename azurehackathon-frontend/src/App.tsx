@@ -25,7 +25,7 @@ export default function ChatSidebar() {
   ]);
 
   return (
-    <div className="grid grid-cols-[300px,1fr] max-h-[100vh] gap-4">
+    <div className="grid grid-cols-[300px,1fr] min-h-screen gap-4">
       <div className="p-4 shadow-lg bg-[#242424]">
         <div className="w-[300px] overflow-y-auto h-screen">
           <h2 className="text-xl font-bold mb-6">Chats</h2>
@@ -48,7 +48,7 @@ export default function ChatSidebar() {
         </div>
       </div>
       <div className="w-full flex flex-col">
-        <div className="h-[600px] p-6">
+        <div className="h-[60%] p-6">
           <h2 className="text-2xl font-bold text-white">Chat Window</h2>
           <div>
             <div className="mt-4 text-gray-300 bg-gray-700">
