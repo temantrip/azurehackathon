@@ -1,7 +1,12 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import html2pdf from 'html2pdf.js';
 
 export default function ChatSidebar() {
+  const pdfRef = useRef<HTMLDivElement>(null);
+
+  const [html, setHtml] = useState('')
+
   const [activeChat, setActiveChat] = useState<
     {
       message: string;
@@ -37,6 +42,14 @@ export default function ChatSidebar() {
     },
   ]);
 
+  const myHtml = (html: string) => {
+    return (
+      <div ref={pdfRef}>
+        {html}
+      </div>
+    )
+  }
+
   const sendMessageToAgent = async (message: string) => {
     setIsLoading(true);
     try {
@@ -47,6 +60,7 @@ export default function ChatSidebar() {
           ...(threadId ? { threadId: threadId } : {}),
         }
       );
+      itsSummary && setHtml(response?.data?.messages[0])
       console.log(response);
       setThreadId(response?.data?.threadId);
       setActiveChat((prev) => [
@@ -58,6 +72,44 @@ export default function ChatSidebar() {
       console.log(error);
     }
   };
+
+  const handleDownloadPDF = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/proposal/create-proposal",
+        {
+          question: html,
+        }
+      );
+
+      myHtml(response?.data?.response?.[0]?.text)
+
+      if(pdfRef.current) {
+        html2pdf().from(pdfRef.current).set({
+          margin: 0.5,
+          filename: 'myProposal.pdf',
+          html2canvas: { scale: 2},
+          jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+        }).save();
+  
+        const newTab = window.open('', '_blank');
+  
+        if (newTab) {
+          // 3. Write the HTML into the new tab
+          newTab.document.open();
+          newTab.document.write(response?.data?.response?.[0]?.text);
+          newTab.document.close();
+        }
+      }
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+
+    
+  }
 
   useEffect(() => {
     if (activeChat) {
@@ -128,7 +180,10 @@ export default function ChatSidebar() {
             ></textarea>
             <div className="flex justify-between items-center border-t border-gray-900 pt-3">
               {itsSummary && (
-                <button className="flex items-center bg-indigo-500 hover:bg-indigo-600 text-white text-sm font-semibold px-5 py-2 rounded-lg">
+                <button 
+                onClick={handleDownloadPDF}
+                // formTarget="_blank"
+                className="flex items-center bg-indigo-500 hover:bg-indigo-600 text-white text-sm font-semibold px-5 py-2 rounded-lg">
                   <span>📎</span>
                   <span className="ml-1">Generate Proposal</span>
                 </button>
