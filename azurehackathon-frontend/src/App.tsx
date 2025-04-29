@@ -7,38 +7,7 @@ export default function ChatSidebar() {
       message: string;
       identity: "user" | "assistant";
     }[]
-  >([
-    {
-      message: `<p>Thank you, Ms. Yosephine! Here is the order summary:</p>
-
-[summary]<p><strong>Client Information:</strong></p>
-<ul>
-<li><strong>Full Name:</strong> Yosephine</li>
-<li><strong>Phone Number:</strong> 081111111</li>
-<li><strong>Shipping Address:</strong> Yose Tower No 43</li>
-<li><strong>Business Name:</strong> PT YOSE</li>
-<li><strong>Email Address:</strong> yosephine@yose.com</li>
-</ul>
-
-<p><strong>Order Details:</strong></p>
-<ul>
-<li><strong>Laptop Model:</strong> Lenovo Model 4</li>
-<ul>
-<li>Processor: 11th Gen Intel Core i5</li>
-<li>RAM: 16 GB DDR4</li>
-<li>Storage: 512 GB SSD</li>
-<li>Operating System: Windows 64-bit</li>
-</ul>
-<li><strong>Quantity:</strong> 100 Units</li>
-<li><strong>Pre-Tax Price:</strong> Rp 629,900,000</li>
-<li><strong>Tax (11% VAT):</strong> Rp 69,289,000</li>
-<li><strong>Total Cost:</strong> Rp 699,189,000</li>
-</ul>
-
-<p><em>Please confirm if everything looks correct, and I'll prepare the invoice.</em></p>`,
-      identity: "assistant",
-    },
-  ]);
+  >([]);
 
   const [threadId, setThreadId] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);

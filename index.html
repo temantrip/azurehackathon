@@ -1,144 +1,174 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Proposal Pembelian Produk</title>
+    <title>Purchase Proposal - PT Deborah Teknologi Berjaya</title>
     <style>
       body {
-        font-family: "Helvetica Neue", sans-serif;
-        background-color: #f5f7fa;
+        font-family: "Segoe UI", sans-serif;
+        background-color: #f8f9fa;
         margin: 0;
         padding: 40px;
         color: #333;
       }
 
       .container {
-        background: #ffffff;
+        background-color: #ffffff;
         max-width: 900px;
         margin: auto;
         padding: 40px;
-        border-radius: 12px;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
       }
 
-      header {
+      .header {
         text-align: center;
         margin-bottom: 40px;
       }
 
-      header h1 {
-        font-size: 28px;
-        margin-bottom: 10px;
+      .header h1 {
+        margin: 0;
         color: #0d47a1;
+        font-size: 28px;
       }
 
-      .info,
-      .product,
-      .summary,
-      .footer {
-        margin-bottom: 30px;
-      }
-
-      .info p,
-      .product p {
-        margin: 4px 0;
+      .highlight {
+        background-color: #e3f2fd;
+        padding: 6px 10px;
+        border-radius: 4px;
+        display: inline-block;
+        margin-top: 8px;
       }
 
       h2 {
-        font-size: 20px;
+        border-bottom: 2px solid #ddd;
+        padding-bottom: 6px;
         color: #0d47a1;
-        border-bottom: 2px solid #e0e0e0;
-        padding-bottom: 8px;
-        margin-bottom: 15px;
+        font-size: 18px;
+        margin-top: 40px;
+        margin-bottom: 12px;
+      }
+
+      p {
+        line-height: 1.6;
+      }
+
+      .info p {
+        margin: 4px 0;
       }
 
       table {
         width: 100%;
         border-collapse: collapse;
-        margin-top: 10px;
+        margin-top: 12px;
       }
 
-      table th,
-      table td {
-        padding: 12px 10px;
-        border: 1px solid #ddd;
-        text-align: left;
+      th,
+      td {
+        padding: 10px 12px;
+        border: 1px solid #ccc;
       }
 
-      table th {
+      th {
         background-color: #f0f0f0;
-      }
-
-      .right {
-        text-align: right;
+        text-align: left;
       }
 
       .footer {
         font-size: 0.95em;
-        color: #666;
         text-align: center;
+        color: #666;
         margin-top: 40px;
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <header>
-        <h1>Proposal Pembelian Produk</h1>
-        <p><em>Dibuat oleh: Yose</em></p>
-      </header>
+      <div class="header">
+        <h1>PURCHASE PROPOSAL</h1>
+        <p class="highlight">PT Deborah Teknologi Berjaya</p>
+        <p>The Most Transparent Tech Company</p>
+        <p>
+          📞 +62 821-4423-4649 | ✉️ deborahhuda8@gmail.com | 🌐
+          www.deborah-tech.com
+        </p>
+      </div>
 
       <section class="info">
-        <h2>Informasi Klien</h2>
-        <p><strong>Nama:</strong> Yosephine</p>
-        <p><strong>Email:</strong> yosephine@yose.com</p>
-        <p><strong>Telepon:</strong> 084533333</p>
-        <p><strong>Alamat Pengiriman:</strong> Yose Tower No.54</p>
+        <h2>Client Information</h2>
+        <p><strong>Full Name:</strong> Ms. Yosephine</p>
+        <p><strong>Phone Number:</strong> 081111111</p>
+        <p><strong>Email Address:</strong> yosephine@yose.com</p>
+        <p><strong>Shipping Address:</strong> Yose Tower No. 43</p>
+        <p><strong>Business Name:</strong> PT YOSE</p>
       </section>
 
-      <section class="product">
-        <h2>Deskripsi Produk</h2>
-        <p><strong>Produk:</strong> Laptop Lenovo Core i5</p>
-        <p><strong>Spesifikasi:</strong> 8GB RAM, 512GB SSD</p>
-        <p><strong>Jumlah:</strong> 100 Unit</p>
-      </section>
-
-      <section class="summary">
-        <h2>Rincian Harga</h2>
+      <section class="info">
+        <h2>Product Specifications</h2>
         <table>
           <tr>
-            <th>Deskripsi</th>
-            <th class="right">Jumlah</th>
+            <th>Item</th>
+            <th>Specification</th>
           </tr>
           <tr>
-            <td>Harga per Unit</td>
-            <td class="right">Rp 51.990</td>
+            <td>Laptop Model</td>
+            <td>Lenovo Model 4</td>
           </tr>
           <tr>
-            <td>Total Harga (100 Unit)</td>
-            <td class="right">Rp 5.199.000</td>
+            <td>Processor</td>
+            <td>11th Gen Intel Core i5</td>
           </tr>
           <tr>
-            <td>PPN 11%</td>
-            <td class="right">Rp 571.890</td>
+            <td>RAM</td>
+            <td>16 GB DDR4</td>
           </tr>
           <tr>
-            <th>Total Keseluruhan</th>
-            <th class="right">Rp 5.770.890</th>
+            <td>Storage</td>
+            <td>512 GB SSD</td>
+          </tr>
+          <tr>
+            <td>Operating System</td>
+            <td>Windows 64-bit</td>
           </tr>
         </table>
       </section>
 
+      <section class="info">
+        <h2>Why Choose PT Deborah Teknologi Berjaya?</h2>
+        <ul>
+          <li>
+            <strong>Transparent Pricing:</strong> No hidden fees. What you see
+            is what you get.
+          </li>
+          <li>
+            <strong>Premium Products:</strong> We offer only original,
+            high-quality tech solutions tailored to your business needs.
+          </li>
+          <li>
+            <strong>Fast & Reliable Delivery:</strong> Guaranteed prompt and
+            secure shipping to your location.
+          </li>
+          <li>
+            <strong>Dedicated Support:</strong> Our expert team is available to
+            assist before, during, and after the sale.
+          </li>
+          <li>
+            <strong>Trusted by Many:</strong> We have consistently served
+            enterprises and institutions across Indonesia with excellence.
+          </li>
+        </ul>
+      </section>
+
       <section class="footer">
         <p>
-          Proposal ini disusun sebagai penawaran resmi untuk pembelian perangkat
-          yang disebutkan di atas.
+          This proposal is submitted as an official offer from PT Deborah
+          Teknologi Berjaya.
         </p>
         <p>
-          Mohon konfirmasi apabila proposal ini telah sesuai agar proses
-          pembelian dapat dilanjutkan.
+          Please confirm if the product specifications and terms meet your
+          expectations so we can proceed with the order.
         </p>
-        <p>Terima kasih atas kepercayaannya.</p>
+        <p>Thank you for your trust and consideration.</p>
       </section>
     </div>
   </body>
