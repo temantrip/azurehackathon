@@ -1,6 +1,50 @@
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 export default function ChatSidebar() {
+  const [activeChat, setActiveChat] = useState<
+    {
+      message: string;
+      identity: "user" | "assistant";
+    }[]
+  >([
+    {
+      message: `<p>Thank you, Ms. Yosephine! Here is the order summary:</p>
+
+[summary]<p><strong>Client Information:</strong></p>
+<ul>
+<li><strong>Full Name:</strong> Yosephine</li>
+<li><strong>Phone Number:</strong> 081111111</li>
+<li><strong>Shipping Address:</strong> Yose Tower No 43</li>
+<li><strong>Business Name:</strong> PT YOSE</li>
+<li><strong>Email Address:</strong> yosephine@yose.com</li>
+</ul>
+
+<p><strong>Order Details:</strong></p>
+<ul>
+<li><strong>Laptop Model:</strong> Lenovo Model 4</li>
+<ul>
+<li>Processor: 11th Gen Intel Core i5</li>
+<li>RAM: 16 GB DDR4</li>
+<li>Storage: 512 GB SSD</li>
+<li>Operating System: Windows 64-bit</li>
+</ul>
+<li><strong>Quantity:</strong> 100 Units</li>
+<li><strong>Pre-Tax Price:</strong> Rp 629,900,000</li>
+<li><strong>Tax (11% VAT):</strong> Rp 69,289,000</li>
+<li><strong>Total Cost:</strong> Rp 699,189,000</li>
+</ul>
+
+<p><em>Please confirm if everything looks correct, and I'll prepare the invoice.</em></p>`,
+      identity: "assistant",
+    },
+  ]);
+
+  const [threadId, setThreadId] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>("");
+  const [itsSummary, setItsSummary] = useState<string | null>(null);
+
   const [chats] = useState([
     {
       id: 1,
@@ -23,6 +67,38 @@ export default function ChatSidebar() {
       status: "online",
     },
   ]);
+
+  const sendMessageToAgent = async (message: string) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/chat-agent/chat",
+        {
+          question: message,
+          ...(threadId ? { threadId: threadId } : {}),
+        }
+      );
+      console.log(response);
+      setThreadId(response?.data?.threadId);
+      setActiveChat((prev) => [
+        ...prev,
+        { message: response?.data?.messages?.[0], identity: "assistant" },
+      ]);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (activeChat) {
+      activeChat?.forEach((el) => {
+        if (el?.message?.toLowerCase()?.includes("[summary]")) {
+          setItsSummary(el?.message);
+        }
+      });
+    }
+  }, [activeChat]);
 
   return (
     <div className="grid grid-cols-[300px,1fr] min-h-screen gap-4">
@@ -47,33 +123,61 @@ export default function ChatSidebar() {
           </div>
         </div>
       </div>
-      <div className="w-full flex flex-col">
-        <div className="h-[60%] p-6">
+      <div className="w-full flex flex-col h-screen">
+        <div className="h-[70%] p-6 overflow-y-scroll">
           <h2 className="text-2xl font-bold text-white">Chat Window</h2>
-          <div>
-            <div className="mt-4 text-gray-300 bg-gray-700">
-              <p>Chat content goes here...</p>
+          {activeChat?.map((el, index) => (
+            <div key={index}>
+              {el?.identity === "user" ? (
+                <div className="flex justify-between items-center mb-4">
+                  <div></div>
+                  <div className="mt-4 max-w-[700px] text-gray-300 bg-gray-700 p-3 rounded-md">
+                    <p>{el?.message}</p>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex justify-between items-center mb-4">
+                  <div className="mt-4 max-w-[700px] text-gray-300 bg-indigo-700 p-3 rounded-md">
+                    <div
+                      dangerouslySetInnerHTML={{ __html: el?.message }}
+                    ></div>
+                  </div>
+                  <div></div>
+                </div>
+              )}
             </div>
-            <div className="mt-4 text-gray-300 bg-indigo-700">
-              <p>Chat content 2 goes here...</p>
-            </div>
-          </div>
+          ))}
         </div>
-        <div className="h-[100px] p-6">
+        <div className="p-6">
           <div className="border border-gray-900 shadow-lg rounded-lg p-4 w-full space-y-4 bg-[#242424]">
             <textarea
               placeholder="Write a description..."
               rows={3}
-              className="w-full text-sm text-gray-500 bg-transparent placeholder-gray-400 outline-none resize-none"
+              className="w-full text-sm text-white bg-transparent placeholder-gray-400 outline-none resize-none"
+              onChange={(e) => setMessage(e.target.value)}
+              value={message}
             ></textarea>
             <div className="flex justify-between items-center border-t border-gray-900 pt-3">
-              <button className="flex items-center text-gray-500 text-sm hover:underline">
-                <span>📎</span>
-                <span className="ml-1">Attach a file</span>
-              </button>
-
-              <button className="bg-indigo-500 hover:bg-indigo-600 text-white text-sm font-semibold px-5 py-2 rounded-lg">
-                Send
+              {itsSummary && (
+                <button className="flex items-center bg-indigo-500 hover:bg-indigo-600 text-white text-sm font-semibold px-5 py-2 rounded-lg">
+                  <span>📎</span>
+                  <span className="ml-1">Generate Proposal</span>
+                </button>
+              )}
+              <div></div>
+              <button
+                className="bg-indigo-500 hover:bg-indigo-600 text-white text-sm font-semibold px-5 py-2 rounded-lg"
+                onClick={() => {
+                  sendMessageToAgent(message);
+                  setActiveChat((prev) => [
+                    ...prev,
+                    { message: message, identity: "user" },
+                  ]);
+                  setMessage("");
+                }}
+                disabled={isLoading}
+              >
+                {isLoading ? "Loading..." : "Send"}
               </button>
             </div>
           </div>
