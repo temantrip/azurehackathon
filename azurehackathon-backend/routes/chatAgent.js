@@ -37,21 +37,17 @@ router.post("/chat", async (req, res) => {
       return res.status(400).json({ error: "Invalid threadId" });
     }
 
-    // Kirim pesan ke thread
     await client.agents.createMessage(threadId, {
       role: "user",
       content: question,
     });
 
-    // Menjalankan agen dengan threadId dan agentId menggunakan stream
     const streamEventMessages = await client.agents
       .createRun(threadId, agentId)
       .stream();
 
-    let fullMessage = ""; // Variable to accumulate the full message
+    let fullMessage = "";
     const messages = [];
-
-    // Proses stream events
     for await (const eventMessage of streamEventMessages) {
       switch (eventMessage.event) {
         case RunStreamEvent.ThreadRunCreated:
@@ -65,14 +61,14 @@ router.post("/chat", async (req, res) => {
               const textContent = contentPart;
               const textValue = textContent.text?.value || "No text";
               console.log(`Text delta received: ${textValue}`);
-              fullMessage += textValue; // Concatenate the text chunks
+              fullMessage += textValue;
             }
           });
           break;
 
         case RunStreamEvent.ThreadRunCompleted:
           console.log("Thread Run Completed");
-          messages.push(fullMessage); // Once the stream is completed, add the full message to messages
+          messages.push(fullMessage);
           break;
 
         case ErrorEvent.Error:
