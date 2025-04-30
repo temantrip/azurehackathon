@@ -26,7 +26,12 @@ This isn’t just about saving time — it’s about empowering businesses to sc
 - **Frontend:** React.js (TypeScript), Tailwind CSS  
 - **Backend:** Express JS  
 - **PDF Generation:** HTML-to-PDF via DOM rendering  
-- **AI Content Logic:** Azure AI 
+- **AI Content Logic:** Azure AI Foundry
+
+---
+
+## 🖥️ Architecture Diagram
+![architecture-diagram](https://github.com/user-attachments/assets/9048890d-e875-460a-93a7-96815db40e6f)
 
 ---
 
