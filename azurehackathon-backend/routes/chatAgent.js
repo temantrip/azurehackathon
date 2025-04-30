@@ -19,22 +19,16 @@ router.post("/chat", async (req, res) => {
     const { question, threadId: existingThreadId } = req.body;
     const agentId = process.env.AGENT_ID;
 
-    // Validasi input
     if (!question || !agentId) {
       return res.status(400).json({ error: "Missing question or agentId" });
     }
 
     let threadId = existingThreadId;
 
-    // Jika threadId tidak ada, buat thread baru
     if (!threadId) {
       const thread = await client.agents.createThread();
       threadId = thread.id;
       console.log("Created new thread with ID:", threadId);
-    }
-
-    if (!threadId) {
-      return res.status(400).json({ error: "Invalid threadId" });
     }
 
     await client.agents.createMessage(threadId, {
@@ -48,6 +42,8 @@ router.post("/chat", async (req, res) => {
 
     let fullMessage = "";
     const messages = [];
+    let completed = false;
+
     for await (const eventMessage of streamEventMessages) {
       switch (eventMessage.event) {
         case RunStreamEvent.ThreadRunCreated:
@@ -58,8 +54,7 @@ router.post("/chat", async (req, res) => {
           const messageDelta = eventMessage.data;
           messageDelta.delta.content.forEach((contentPart) => {
             if (contentPart.type === "text") {
-              const textContent = contentPart;
-              const textValue = textContent.text?.value || "No text";
+              const textValue = contentPart.text?.value || "No text";
               console.log(`Text delta received: ${textValue}`);
               fullMessage += textValue;
             }
@@ -67,25 +62,31 @@ router.post("/chat", async (req, res) => {
           break;
 
         case RunStreamEvent.ThreadRunCompleted:
-          console.log("Thread Run Completed");
+          console.log("✅ Thread Run Completed");
           messages.push(fullMessage);
+          completed = true;
           break;
 
         case ErrorEvent.Error:
-          console.log(`An error occurred: ${eventMessage.data}`);
+          console.error(`❌ Error event: ${eventMessage.data}`);
           break;
 
         case DoneEvent.Done:
-          console.log("Stream completed.");
-          break;
+          console.log("✔️ Stream completed.");
+          if (completed) {
+            return res.json({ threadId, messages });
+          } else {
+            return res.status(500).json({
+              error: "Stream ended without ThreadRunCompleted",
+            });
+          }
       }
     }
-
-    // Kirim respons dengan threadId dan daftar pesan
-    res.json({ threadId, messages });
   } catch (error) {
-    console.error("❌ Error in /chatAgent:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    console.error("❌ Error in /chat:", error);
+    if (!res.headersSent) {
+      res.status(500).json({ error: "Internal Server Error" });
+    }
   }
 });
 
