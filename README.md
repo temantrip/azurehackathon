@@ -64,12 +64,19 @@ This isn’t just about saving time — it’s about empowering businesses to sc
 ---
 
 ## 📦 Installation
-1. Clone the repository: `git clone https://github.com/temantrip/azurehackathon.git`
-2. Navigate to the project directory: 
-    a. `cd azurehackathon`
-    b. For Backend `cd azurehackathon-backend`
-    c. For Frontend `cd azurehackathon=frontend`
-3. Install dependencies: `yarn` 
+### Clone the repository: `git clone https://github.com/temantrip/azurehackathon.git`
+### Backend 
+```bash
+cd azurehackathon
+cd azurehackathon-backend
+yarn
+```
+### Frontend 
+```bash
+cd azurehackathon
+cd azurehackathon=frontend
+yarn
+```
 
 ## ▶️ Run and Demo 
 
