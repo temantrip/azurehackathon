@@ -63,36 +63,46 @@ export default function ChatSidebar() {
     }
   };
 
-  const handleDownloadPDF = async () => {
+  interface GeneratePDFResponse {
+    data: {
+      response: {
+        text: {
+          value: string;
+        };
+      }[];
+    };
+  }
+
+  const handleGeneratePDF = (response: GeneratePDFResponse) => {
+    const responseData = response?.data?.response?.[0]?.text.value;
+
+    html2pdf()
+      .from(responseData)
+      .set({
+        margin: 0.5,
+        filename: "myProposal.pdf",
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
+      })
+      .save();
+
+    const newTab = window.open("", "_blank");
+
+    if (newTab) {
+      newTab.document.open();
+      newTab.document.write(responseData);
+      newTab.document.close();
+    }
+  };
+
+  const handleDownloadFile = async (path: string) => {
     setIsLoading(true);
     try {
-      const response = await axios.post(
-        "http://localhost:3000/proposal/create-proposal",
-        {
-          question: html,
-        }
-      );
+      const response = await axios.post(`http://localhost:3000/${path}`, {
+        question: html,
+      });
 
-      setHtml(response?.data?.response?.[0]?.text.value);
-
-      html2pdf()
-        .from(html)
-        .set({
-          margin: 0.5,
-          filename: "myProposal.pdf",
-          html2canvas: { scale: 2 },
-          jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
-        })
-        .save();
-
-      const newTab = window.open("", "_blank");
-
-      if (newTab) {
-        // 3. Write the HTML into the new tab
-        newTab.document.open();
-        newTab.document.write(html);
-        newTab.document.close();
-      }
+      handleGeneratePDF(response);
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -159,6 +169,7 @@ export default function ChatSidebar() {
               value={message}
             ></textarea>
             <div className="flex justify-between items-center border-t border-gray-900 pt-3">
+<<<<<<< HEAD
               {itsSummary && (
                 <button
                   onClick={handleDownloadPDF}
@@ -168,6 +179,43 @@ export default function ChatSidebar() {
                   <span className="ml-1">Generate Proposal</span>
                 </button>
               )}
+=======
+              <div className="flex gap-2 items-center">
+                {itsSummary && (
+                  <button
+                    onClick={() =>
+                      handleDownloadFile("proposal/create-proposal")
+                    }
+                    className="flex items-center bg-indigo-500 hover:bg-indigo-600 text-white text-sm font-semibold px-5 py-2 rounded-lg"
+                  >
+                    <span>📎</span>
+                    <span className="ml-1">Generate Proposal</span>
+                  </button>
+                )}
+                {itsSummary && (
+                  <button
+                    onClick={() =>
+                      handleDownloadFile("quotation/create-quotation")
+                    }
+                    className="flex items-center bg-indigo-500 hover:bg-indigo-600 text-white text-sm font-semibold px-5 py-2 rounded-lg"
+                  >
+                    <span>📎</span>
+                    <span className="ml-1">Generate Quotation</span>
+                  </button>
+                )}
+                {itsSummary && (
+                  <button
+                    onClick={() =>
+                      handleDownloadFile("quotation/create-quotation")
+                    }
+                    className="flex items-center bg-indigo-500 hover:bg-indigo-600 text-white text-sm font-semibold px-5 py-2 rounded-lg"
+                  >
+                    <span>📎</span>
+                    <span className="ml-1">Generate Invoice</span>
+                  </button>
+                )}
+              </div>
+>>>>>>> 5dbb51e0b8a2b36774b645f77683e68c09a32db4
               <div></div>
               <button
                 className="bg-lightgreen hover:opacity-70 text-darkgreen text-sm font-semibold px-5 py-2 rounded-lg"
