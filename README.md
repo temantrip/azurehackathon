@@ -82,7 +82,7 @@ cd azurehackathon
 cd azurehackathon=frontend
 yarn
 ```
-### Set Up Agent  [check `agent.txt` file]
+### Set Up Agent  [check `setup_agent.txt` file]
 1. Agent Pricing
 3. Agent Quotation
 4. Agent Proposal
