@@ -34,6 +34,10 @@ export default function ChatSidebar() {
         ...prev,
         { message: response?.data?.messages?.[0], identity: "assistant" },
       ]);
+      const chatWindow = document.querySelector("#__chat-window");
+      if (chatWindow) {
+        chatWindow.scrollTo(0, chatWindow.scrollHeight);
+      }
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -102,17 +106,13 @@ export default function ChatSidebar() {
       <div className="p-4 shadow-lg bg-[#242424]">
         <div className="overflow-y-auto h-screen">
           <div className="flex justify-start items-center gap-4 my-4">
-            <img 
-              src="logo.jpg"
-              alt="Logo"
-              className="w-9 h-9 rounded-full"
-            />
+            <img src="logo.jpg" alt="Logo" className="w-9 h-9 rounded-full" />
             <h2 className="text-xl font-bold">Chats</h2>
           </div>
         </div>
       </div>
       <div className="w-full flex flex-col h-screen">
-        <div className="h-[70%] p-6 overflow-y-scroll">
+        <div className="h-[70%] p-6 overflow-y-scroll" id="__chat-window">
           <h2 className="text-2xl font-bold text-white">Chat Window</h2>
           {activeChat?.map((el, index) => (
             <div key={index}>
@@ -125,7 +125,7 @@ export default function ChatSidebar() {
                 </div>
               ) : (
                 <div className="flex justify-between items-center mb-4">
-                  <div className="mt-4 max-w-[700px] text-darkgreen bg-lightgreen p-3 rounded-md">
+                  <div className="mt-4 max-w-[700px] text-white bg-darkgreen p-3 rounded-md">
                     <div
                       dangerouslySetInnerHTML={{ __html: el?.message }}
                     ></div>
@@ -152,7 +152,7 @@ export default function ChatSidebar() {
                     onClick={() =>
                       handleDownloadFile("proposal/create-proposal")
                     }
-                    className="flex items-center bg-indigo-500 hover:bg-indigo-600 text-white text-sm font-semibold px-5 py-2 rounded-lg"
+                    className="flex items-center bg-darkgreen hover:opacity-70 text-white text-sm font-semibold px-5 py-2 rounded-lg"
                   >
                     <span>📎</span>
                     <span className="ml-1">Generate Proposal</span>
@@ -163,7 +163,7 @@ export default function ChatSidebar() {
                     onClick={() =>
                       handleDownloadFile("quotation/create-quotation")
                     }
-                    className="flex items-center bg-indigo-500 hover:bg-indigo-600 text-white text-sm font-semibold px-5 py-2 rounded-lg"
+                    className="flex items-center bg-darkgreen hover:opacity-70 text-white text-sm font-semibold px-5 py-2 rounded-lg"
                   >
                     <span>📎</span>
                     <span className="ml-1">Generate Quotation</span>
@@ -171,10 +171,8 @@ export default function ChatSidebar() {
                 )}
                 {itsSummary && (
                   <button
-                    onClick={() =>
-                      handleDownloadFile("quotation/create-quotation")
-                    }
-                    className="flex items-center bg-indigo-500 hover:bg-indigo-600 text-white text-sm font-semibold px-5 py-2 rounded-lg"
+                    onClick={() => handleDownloadFile("invoice/create-invoice")}
+                    className="flex items-center bg-darkgreen hover:opacity-70 text-white text-sm font-semibold px-5 py-2 rounded-lg"
                   >
                     <span>📎</span>
                     <span className="ml-1">Generate Invoice</span>
@@ -183,13 +181,17 @@ export default function ChatSidebar() {
               </div>
               <div></div>
               <button
-                className="bg-lightgreen hover:opacity-70 text-darkgreen text-sm font-semibold px-5 py-2 rounded-lg"
+                className="bg-darkgreen hover:opacity-70 text-white text-sm font-semibold px-5 py-2 rounded-lg"
                 onClick={() => {
                   sendMessageToAgent(message);
                   setActiveChat((prev) => [
                     ...prev,
                     { message: message, identity: "user" },
                   ]);
+                  const chatWindow = document.querySelector("#__chat-window");
+                  if (chatWindow) {
+                    chatWindow.scrollTo(0, chatWindow.scrollHeight);
+                  }
                   setMessage("");
                 }}
                 disabled={isLoading}
