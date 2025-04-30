@@ -82,6 +82,11 @@ cd azurehackathon
 cd azurehackathon=frontend
 yarn
 ```
+### Set Up Agent  [check `agent.txt` file]
+1. Agent Pricing
+3. Agent Quotation
+4. Agent Proposal
+5. Agent Invoice
 
 ## ▶️ Run and Demo 
 
