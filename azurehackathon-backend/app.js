@@ -10,6 +10,7 @@ const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const chatAgentRouter = require("./routes/chatAgent");
 const proposalAgentRouter = require("./routes/proposalAgentRouter");
+const qootationAgentRouter = require("./routes/quotationAgentRouter");
 
 const app = express();
 app.use(cors());
@@ -29,6 +30,7 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/chat-agent", chatAgentRouter);
 app.use("/proposal", proposalAgentRouter);
+app.use("/quotation", qootationAgentRouter);
 
 app.use(function (req, res, next) {
   next(createError(404));
