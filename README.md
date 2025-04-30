@@ -69,7 +69,10 @@ This isn’t just about saving time — it’s about empowering businesses to sc
 ---
 
 ## 📦 Installation
-### Clone the repository: `git clone https://github.com/temantrip/azurehackathon.git`
+### Clone the repository: 
+```bash
+git clone https://github.com/temantrip/azurehackathon.git`
+```
 ### Backend 
 ```bash
 cd azurehackathon
