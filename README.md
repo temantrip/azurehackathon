@@ -24,7 +24,7 @@ This isn’t just about saving time — it’s about empowering businesses to sc
 ## 🛠 Tech Stack
 
 - **Frontend:** React.js (TypeScript), Tailwind CSS  
-- **Backend:** Laravel (RESTful API)  
+- **Backend:** Express JS  
 - **PDF Generation:** HTML-to-PDF via DOM rendering  
 - **AI Content Logic:** Azure AI 
 
