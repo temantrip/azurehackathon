@@ -111,25 +111,16 @@ export default function ChatSidebar() {
   }, [activeChat]);
 
   return (
-    <div className="grid grid-cols-[300px,1fr] min-h-screen gap-4">
+    <div className="grid grid-cols-[189px,1fr] min-h-screen gap-4">
       <div className="p-4 shadow-lg bg-[#242424]">
-        <div className="w-[300px] overflow-y-auto h-screen">
-          <h2 className="text-xl font-bold mb-6">Chats</h2>
-          <div className="space-y-4">
-            {chats.map((chat) => (
-              <div
-                key={chat.id}
-                className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-500/50 cursor-pointer transition"
-              >
-                <div className="relative"></div>
-                <div className="flex-1 min-w-0">
-                  <p className="font-semibold truncate">{chat.name}</p>
-                  <p className="text-sm text-gray-500 truncate">
-                    {chat.lastMessage}
-                  </p>
-                </div>
-              </div>
-            ))}
+        <div className="overflow-y-auto h-screen">
+          <div className="flex justify-start items-center gap-4 my-4">
+            <img 
+              src="logo.jpg"
+              alt="Logo"
+              className="w-9 h-9 rounded-full"
+            />
+            <h2 className="text-xl font-bold">Chats</h2>
           </div>
         </div>
       </div>
@@ -147,7 +138,7 @@ export default function ChatSidebar() {
                 </div>
               ) : (
                 <div className="flex justify-between items-center mb-4">
-                  <div className="mt-4 max-w-[700px] text-gray-300 bg-indigo-700 p-3 rounded-md">
+                  <div className="mt-4 max-w-[700px] text-darkgreen bg-lightgreen p-3 rounded-md">
                     <div
                       dangerouslySetInnerHTML={{ __html: el?.message }}
                     ></div>
@@ -171,8 +162,7 @@ export default function ChatSidebar() {
               {itsSummary && (
                 <button
                   onClick={handleDownloadPDF}
-                  // formTarget="_blank"
-                  className="flex items-center bg-indigo-500 hover:bg-indigo-600 text-white text-sm font-semibold px-5 py-2 rounded-lg"
+                  className="flex items-center bg-lightgreen hover:opacity-70 text-white text-sm font-semibold px-5 py-2 rounded-lg"
                 >
                   <span>📎</span>
                   <span className="ml-1">Generate Proposal</span>
@@ -180,7 +170,7 @@ export default function ChatSidebar() {
               )}
               <div></div>
               <button
-                className="bg-indigo-500 hover:bg-indigo-600 text-white text-sm font-semibold px-5 py-2 rounded-lg"
+                className="bg-lightgreen hover:opacity-70 text-darkgreen text-sm font-semibold px-5 py-2 rounded-lg"
                 onClick={() => {
                   sendMessageToAgent(message);
                   setActiveChat((prev) => [
