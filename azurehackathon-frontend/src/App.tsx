@@ -17,29 +17,6 @@ export default function ChatSidebar() {
   const [message, setMessage] = useState<string>("");
   const [itsSummary, setItsSummary] = useState<string | null>(null);
 
-  const [chats] = useState([
-    {
-      id: 1,
-      name: "John Doe",
-      lastMessage: "Hey, are you there?",
-
-      status: "online",
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      lastMessage: "Let's meet tomorrow.",
-
-      status: "offline",
-    },
-    {
-      id: 3,
-      name: "Alice Johnson",
-      lastMessage: "Got it, thanks!",
-      status: "online",
-    },
-  ]);
-
   const sendMessageToAgent = async (message: string) => {
     setIsLoading(true);
     try {
@@ -169,17 +146,6 @@ export default function ChatSidebar() {
               value={message}
             ></textarea>
             <div className="flex justify-between items-center border-t border-gray-900 pt-3">
-<<<<<<< HEAD
-              {itsSummary && (
-                <button
-                  onClick={handleDownloadPDF}
-                  className="flex items-center bg-lightgreen hover:opacity-70 text-white text-sm font-semibold px-5 py-2 rounded-lg"
-                >
-                  <span>📎</span>
-                  <span className="ml-1">Generate Proposal</span>
-                </button>
-              )}
-=======
               <div className="flex gap-2 items-center">
                 {itsSummary && (
                   <button
@@ -215,7 +181,6 @@ export default function ChatSidebar() {
                   </button>
                 )}
               </div>
->>>>>>> 5dbb51e0b8a2b36774b645f77683e68c09a32db4
               <div></div>
               <button
                 className="bg-lightgreen hover:opacity-70 text-darkgreen text-sm font-semibold px-5 py-2 rounded-lg"
